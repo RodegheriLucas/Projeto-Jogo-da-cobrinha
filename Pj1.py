@@ -65,6 +65,7 @@ while True:
                 else:
                     ControleX = -Vel
                     ControleY = 0
+
     #Movimentação infinita:
     CobraX += ControleX
     CobraY += ControleY
