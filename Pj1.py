@@ -89,7 +89,13 @@ while True:
 
     #Cobra   
     cobra = pygame.draw.rect(tela, (0,0,255), (CobraX,CobraY,cobra_tam,cobra_tam))
-
     #maçã
     maca = pygame.draw.rect(tela, (255,0,0),(macaX,macaY,maca_tam,maca_tam))
+
+    if cobra.colliderect(maca):
+        macaX = random.randint(0,(largura - maca_tam))
+        macaY = random.randint(0,(altura - maca_tam))
+        
     pygame.display.update()
+
+    
