@@ -7,6 +7,7 @@ pygame.init()
 
 #Variaveis
 cobra_tam = 25
+maca_tam = 15
 
 largura = 700
 altura = 700
@@ -17,14 +18,17 @@ paredeY = altura - cobra_tam
 CobraX = int(largura/2 - cobra_tam/2)
 CobraY = int(altura/2 - cobra_tam/2)
 
+macaX = random.randint(0,(largura - maca_tam))
+macaY = random.randint(0,(altura - maca_tam))
+
 ControleX = 0
 ControleY = 0
 
-Vel = 10
+Vel = 4
 
 tela = pygame.display.set_mode((largura, altura))
-pygame.display.set_caption('fundo')
-fundo = pygame.image.load((r'C:\Users\lucas\.vscode\Projetos Python\Projeto-Jogo-da-cobrinha\solo.png'))
+pygame.display.set_caption('snake')
+fundo = pygame.image.load('solo.png')
 
 relogio = pygame.time.Clock()
 
@@ -84,6 +88,14 @@ while True:
         CobraY = 0       
 
     #Cobra   
-    cobra = pygame.draw.rect(tela, (200,100,0), (CobraX,CobraY,cobra_tam,cobra_tam))
+    cobra = pygame.draw.rect(tela, (0,0,255), (CobraX,CobraY,cobra_tam,cobra_tam))
+    #maçã
+    maca = pygame.draw.rect(tela, (255,0,0),(macaX,macaY,maca_tam,maca_tam))
 
+    if cobra.colliderect(maca):
+        macaX = random.randint(0,(largura - maca_tam))
+        macaY = random.randint(0,(altura - maca_tam))
+        
     pygame.display.update()
+
+    
