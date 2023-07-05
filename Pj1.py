@@ -12,7 +12,7 @@ loop = True
 loop_game = True
 
 cobra_tam = 25
-maca_tam = 15
+maca_tam = 20
 
 
 corpo_cobra = []
@@ -95,6 +95,21 @@ while loop_game:
     CobraX += ControleX
     CobraY += ControleY
 
+    
+    #Cobra   
+    cobra = pygame.draw.rect(tela, (255,255,255), (CobraX,CobraY,cobra_tam,cobra_tam))
+    #maçã
+    maca = pygame.draw.rect(tela, (255,0,0),(macaX,macaY,maca_tam,maca_tam))
+
+    #Aumento da cobra:
+    cbç_cobra = []
+    cbç_cobra.append(CobraX)
+    cbç_cobra.append(CobraY)
+    corpo_cobra.append(cbç_cobra)
+    aumento(corpo_cobra)
+    if len(corpo_cobra) > comp_cobra:
+            del corpo_cobra[0]    
+
     #Colisões com paredes:   
     if CobraX >= paredeX:
         CobraX = paredeX
@@ -116,19 +131,12 @@ while loop_game:
         tela.blit(txt_perdeu, (250, 300))
         loop = False
 
-    #Cobra   
-    cobra = pygame.draw.rect(tela, (255,255,255), (CobraX,CobraY,cobra_tam,cobra_tam))
-    #maçã
-    maca = pygame.draw.rect(tela, (255,0,0),(macaX,macaY,maca_tam,maca_tam))
-
-    #Aumento da cobra:
-    cbç_cobra = []
-    cbç_cobra.append(CobraX)
-    cbç_cobra.append(CobraY)
-    corpo_cobra.append(cbç_cobra)
-    aumento(corpo_cobra)
-    if len(corpo_cobra) > comp_cobra:
-            del corpo_cobra[0]    
+    #Colisões com a cobra:
+    if corpo_cobra.count(cbç_cobra) > 1:
+        ControleX = 0
+        ControleY = 0
+        tela.blit(txt_perdeu,(250,300))
+        loop = False
 
     #Comer maçã:
     if cobra.colliderect(maca):
