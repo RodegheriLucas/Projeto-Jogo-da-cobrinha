@@ -2,26 +2,50 @@ import pygame
 import random
 from pygame.locals import *
 from sys import exit
+
 pygame.init()
 
 
 
-#Variaveis
+#Variaveis e funções
 
 loop = True
 loop_game = True
+def aumento(x):
+    for i in x:
+        pygame.draw.rect(tela, (255,255,255), (i[0],i[1],cobra_tam,cobra_tam))
+def reset():
+    global loop, loop_game, pontos, comp_cobra, corpo_cobra, cobra_tam, maca_tam, largura, altura, paredeX, paredeY, CobraX, CobraY, macaX, macaY, ControleX, ControleY, Vel
+    corpo_cobra = []
 
-cobra_tam = 25
-maca_tam = 20
+    CobraX = int(largura/2 - cobra_tam/2)
+    CobraY = int(altura/2 - cobra_tam/2)
 
+    macaX = random.randint(0,(largura - maca_tam))
+    macaY = random.randint(0,(altura - maca_tam))
+
+    ControleX = 0
+    ControleY = 0
+
+    Vel = 4
+    pontos = 0
+    comp_cobra = 1
+    loop = True
+
+Vel = 4
+pontos = 0
+comp_cobra = 1
 
 corpo_cobra = []
+
+ControleX = 0
+ControleY = 0
 
 largura = 700
 altura = 700
 
-paredeX = largura - cobra_tam
-paredeY = altura - cobra_tam
+cobra_tam = 25
+maca_tam = 20
 
 CobraX = int(largura/2 - cobra_tam/2)
 CobraY = int(altura/2 - cobra_tam/2)
@@ -29,29 +53,28 @@ CobraY = int(altura/2 - cobra_tam/2)
 macaX = random.randint(0,(largura - maca_tam))
 macaY = random.randint(0,(altura - maca_tam))
 
-ControleX = 0
-ControleY = 0
+pontos = 0
 
-Vel = 4
+paredeX = largura - cobra_tam
+paredeY = altura - cobra_tam 
 
 tela = pygame.display.set_mode((largura, altura))
 pygame.display.set_caption('snake')
+pygame.surface.Surface((largura, altura))
+
 fundo = pygame.image.load('solo.jpg')
 
 relogio = pygame.time.Clock()
 fonte = pygame.font.SysFont('Tahoma', 40, False, False)
-pontos = 0
-comp_cobra = 1
 
-#Função de aumento:
-def aumento(x):
-    for i in x:
-        pygame.draw.rect(tela, (255,255,255), (i[0],i[1],cobra_tam,cobra_tam))
+vfx = pygame.mixer.Sound('barulho pegar maçã.wav')
 
 #Abrir o Jogo:
 while loop_game:
     msg = f'Pontos: {pontos}'
     perdeu = 'Game Over.'
+    dnv = 'R = Tentar novamente / ESC = Sair'
+    txt_dnv = fonte.render(dnv, False, (255,0,0))
     txt_perdeu = fonte.render(perdeu, False, (255, 0, 0))
     txt_tela = fonte.render(msg, False, (0, 0, 0))
     relogio.tick(60)
@@ -96,7 +119,7 @@ while loop_game:
     CobraY += ControleY
 
     
-    #Cobra   
+    #Cobra
     cobra = pygame.draw.rect(tela, (255,255,255), (CobraX,CobraY,cobra_tam,cobra_tam))
     #maçã
     maca = pygame.draw.rect(tela, (255,0,0),(macaX,macaY,maca_tam,maca_tam))
@@ -144,7 +167,17 @@ while loop_game:
         comp_cobra += pontos + 1
         macaX = random.randint(0,(largura - maca_tam))
         macaY = random.randint(0,(altura - maca_tam))
-    
+        vfx.play()
 
+    while loop == False:
+        tela.blit(txt_dnv, (30, 400))
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    quit()
+                if event.key == K_r:
+                    reset()
+        pygame.display.flip()
 
-    pygame.display.update()
+    pygame.display.flip()
