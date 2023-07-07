@@ -167,7 +167,9 @@ while loop_game:
         comp_cobra += pontos + 1
         macaX = random.randint(0,(largura - maca_tam))
         macaY = random.randint(0,(altura - maca_tam))
+        vfx.set_volume(0.1)
         vfx.play()
+ 
 
     while loop == False:
         tela.blit(txt_dnv, (30, 400))
