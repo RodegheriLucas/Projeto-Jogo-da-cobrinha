@@ -65,7 +65,7 @@ pygame.surface.Surface((largura, altura))
 fundo = pygame.image.load('solo.jpg')
 
 relogio = pygame.time.Clock()
-fonte = pygame.font.SysFont('Tahoma', 40, False, False)
+fonte = pygame.font.SysFont('Press Start', 55, False, False)
 
 vfx = pygame.mixer.Sound('barulho pegar maçã.wav')
 
@@ -170,7 +170,7 @@ while loop_game:
         vfx.set_volume(0.1)
         vfx.play()
  
-
+    #Reset Jogo
     while loop == False:
         tela.blit(txt_dnv, (30, 400))
         for event in pygame.event.get():
